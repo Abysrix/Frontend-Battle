@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dataflow — AI Data Automation Platform
 
-## Getting Started
+A landing page built for **Frontend Battle Phase 1: Next-Gen AI Platform Speed Run**.
 
-First, run the development server:
+## Stack
+
+Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · vanilla CSS animations (no Framer Motion / GSAP)
+
+## Core features
+
+- **Matrix-driven pricing** ([constants/pricing.ts](constants/pricing.ts)): every price is computed as `baseRate(plan) × regionalTariff(currency) × (1 − 20% if annual)` — no hardcoded price cells. Changing currency or billing cycle updates only the price text node via a scoped React Context (`PriceProvider`) read by a single leaf component (`<Price />`); the surrounding card, feature list, and layout never re-render.
+- **Bento-to-accordion feature grid** ([components/sections/bento-features.tsx](components/sections/bento-features.tsx)): one `activeId` state drives both the desktop bento grid and the mobile accordion, because they're CSS reflows of the same mounted tree rather than separate desktop/mobile components — so the active panel survives a resize across the breakpoint with no extra logic.
+- **Scene imagery** ([components/scenes/scene-backdrop.tsx](components/scenes/scene-backdrop.tsx)): each section's backdrop is a real image, SSR'd and crawlable, with a CSS-only keyframe crossfade for sections that have multiple frames. No JS animation library.
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # production build
+npm run lint    # eslint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project structure
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/              routes, layout, metadata, sitemap, robots
+components/
+  sections/       one component per landing-page section
+  pricing/        pricing matrix UI (isolated re-render path)
+  scenes/         scene backdrop imagery component
+  ui/             shared primitives (Button, Container, SectionHeading)
+  icons/          hand-rolled SVG set from the supplied asset pack
+constants/        pricing matrix, content copy, scene/asset mappings
+hooks/            bento/accordion state, price context
+lib/              currency formatting
+public/scenes/    curated scene imagery per section
+```

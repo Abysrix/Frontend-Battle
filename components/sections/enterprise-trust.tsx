@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { ProceduralScene } from "@/components/three/hero-scene";
+import { SceneBackdrop } from "@/components/scenes/scene-backdrop";
+import { SCENE_FRAMES } from "@/constants/scenes";
 import { IconCog, IconLinkSolid } from "@/components/icons";
 import { TRUST_POINTS } from "@/constants/content";
 
@@ -41,7 +42,10 @@ export function EnterpriseTrust() {
           </ul>
 
           <div className="relative hidden overflow-hidden rounded-3xl border border-border bg-oceanic-noir lg:block">
-            <ProceduralScene preset="trust" />
+            <SceneBackdrop
+              frames={SCENE_FRAMES.trust}
+              alt="Reasoning, analytics, and secure infrastructure unified at a single connected hub"
+            />
             <p className="sr-only">
               Animated visualization: data settling into a calm, stable
               lattice, representing governed and compliant infrastructure.
